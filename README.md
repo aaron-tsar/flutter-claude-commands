@@ -5,71 +5,57 @@ Custom slash commands for Flutter development workflow in Claude Code.
 ## Quick Install
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/flutter-claude-commands/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/aaron-tsar/flutter-claude-commands/main/install.sh | bash
 ```
 
-Or with a specific project directory:
+Or install to a specific project:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/flutter-claude-commands/main/install.sh | bash -s /path/to/project
+curl -fsSL https://raw.githubusercontent.com/aaron-tsar/flutter-claude-commands/main/install.sh | bash -s /path/to/project
 ```
 
 ## Commands
 
 | Command | Description |
 |---------|-------------|
-| `/feature <prompt>` | Plan a feature interactively (no code yet) |
+| `/feature <prompt>` | Plan a feature interactively |
 | `/extract` | Save plan to `plan.md` |
 | `/build @plan.md` | Implement from plan |
 
 ## Workflow
 
-```
-/feature create auth with email/password
-    ↓ (interactive planning)
-/extract
-    ↓ (saves plan.md)
-/clear
-    ↓ (release session)
-/build @plan.md
-    ↓ (implements phase by phase)
-```
+1. **Plan**: `/feature create user authentication with email/password`
+2. **Extract**: `/extract` — saves to `plan.md`
+3. **Clear**: `/clear` — release session
+4. **Build**: `/build @plan.md` — implement the feature
 
-## What Gets Installed
+## Files Installed
 
 ```
-your-project/
-  CLAUDE.md                      # Entry point
-  .claude/
-    commands/
-      feature.md                 # /feature command
-      extract.md                 # /extract command  
-      build.md                   # /build command (includes Flutter rules)
+project/
+├── CLAUDE.md                    # Flutter rules + entry point
+└── .claude/
+    └── commands/
+        ├── feature.md           # /feature command
+        ├── extract.md           # /extract command
+        └── build.md             # /build command
 ```
 
-## Dart MCP Server (Optional)
+## Dart MCP Server
 
-For enhanced tooling, configure the Dart MCP server (requires Dart 3.9+):
+The installer auto-configures Dart MCP if Dart 3.9+ and Claude CLI are available.
 
+Manual setup:
 ```bash
 claude mcp add --transport stdio dart -- dart mcp-server
 ```
 
-This enables MCP tools: `analyze_files`, `dart_fix`, `dart_format`, `pub`, `pub_dev_search`, `run_tests`
+MCP tools: `analyze_files`, `dart_fix`, `dart_format`, `pub`, `pub_dev_search`, `run_tests`
 
 ## Flutter Rules
 
-The `/build` command includes official Flutter AI rules from:
+`CLAUDE.md` contains official Flutter AI rules from:
 https://github.com/flutter/flutter/blob/main/docs/rules/rules.md
-
-## Global Installation
-
-To make commands available for all projects:
-
-```bash
-mkdir -p ~/.claude/commands
-cp .claude/commands/*.md ~/.claude/commands/
-```
 
 ## License
 
