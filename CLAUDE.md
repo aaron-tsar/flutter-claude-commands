@@ -85,9 +85,11 @@ main (production) ←── staging ←── develop ←── feature/*
 1. /branch:feature user-auth     → Create feature/user-auth from develop
 2. /feature create auth          → Plan the feature
 3. /extract                      → Save to plan.md
-4. /build @plan.md               → Execute + Test + Security + Lint + Review
-5. /commit "feat(auth): add login"  → Commit
-6. /pr                           → PR to develop
+4. /execute @plan.md             → Implement code
+5. /test:write                   → Generate unit + widget tests
+6. /build @plan.md               → Run Test + Security + Lint + Review
+7. /commit "feat(auth): add login"  → Commit
+8. /pr                           → PR to develop
 ```
 
 **Or use Fast Flow:**
@@ -95,8 +97,10 @@ main (production) ←── staging ←── develop ←── feature/*
 1. /branch:feature user-auth     → Create branch
 2. /feature create auth          → Plan
 3. /extract                      → Save plan
-4. /build:fast @plan.md          → Execute + Test + Security + Review + Commit (auto)
-5. /pr                           → PR to develop
+4. /execute @plan.md             → Implement code
+5. /test:write                   → Generate tests
+6. /build:fast @plan.md          → Test + Security + Review + Commit (auto)
+7. /pr                           → PR to develop
 ```
 
 ### Release Flow
