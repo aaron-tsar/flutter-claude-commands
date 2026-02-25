@@ -20,6 +20,9 @@
 | `/test:widget [path]` | Run widget tests only |
 | `/test:integration` | Run integration tests |
 | `/test:coverage` | Run tests with coverage report |
+| `/test:write [path]` | Generate tests for file/feature |
+| `/test:write:unit [path]` | Generate unit tests |
+| `/test:write:widget [path]` | Generate widget tests |
 
 ### Security (Advanced)
 | Command | Description |

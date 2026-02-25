@@ -14,7 +14,7 @@ Or install to a specific project:
 curl -fsSL https://raw.githubusercontent.com/aaron-tsar/flutter-claude-commands/master/install.sh | bash -s /path/to/project
 ```
 
-## Commands (31 total)
+## Commands (34 total)
 
 ### Planning & Building
 
@@ -35,6 +35,9 @@ curl -fsSL https://raw.githubusercontent.com/aaron-tsar/flutter-claude-commands/
 | `/test:widget [path]` | Run widget tests only |
 | `/test:integration` | Run integration tests |
 | `/test:coverage` | Run tests with coverage report |
+| `/test:write [path]` | Generate tests for file/feature |
+| `/test:write:unit [path]` | Generate unit tests |
+| `/test:write:widget [path]` | Generate widget tests |
 
 ### Security (Advanced)
 
@@ -154,6 +157,9 @@ project/
         ├── test-widget.md           # /test:widget
         ├── test-integration.md      # /test:integration
         ├── test-coverage.md         # /test:coverage
+        ├── test-write.md            # /test:write
+        ├── test-write-unit.md       # /test:write:unit
+        ├── test-write-widget.md     # /test:write:widget
         ├── security.md              # /security
         ├── security-deps.md         # /security:deps
         ├── security-secrets.md      # /security:secrets

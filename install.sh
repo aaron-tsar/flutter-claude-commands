@@ -38,7 +38,10 @@ curl -fsSL "$REPO_URL/.claude/commands/test-unit.md" -o "$PROJECT_DIR/.claude/co
 curl -fsSL "$REPO_URL/.claude/commands/test-widget.md" -o "$PROJECT_DIR/.claude/commands/test-widget.md"
 curl -fsSL "$REPO_URL/.claude/commands/test-integration.md" -o "$PROJECT_DIR/.claude/commands/test-integration.md"
 curl -fsSL "$REPO_URL/.claude/commands/test-coverage.md" -o "$PROJECT_DIR/.claude/commands/test-coverage.md"
-echo "[OK] Testing (5 files)"
+curl -fsSL "$REPO_URL/.claude/commands/test-write.md" -o "$PROJECT_DIR/.claude/commands/test-write.md"
+curl -fsSL "$REPO_URL/.claude/commands/test-write-unit.md" -o "$PROJECT_DIR/.claude/commands/test-write-unit.md"
+curl -fsSL "$REPO_URL/.claude/commands/test-write-widget.md" -o "$PROJECT_DIR/.claude/commands/test-write-widget.md"
+echo "[OK] Testing (8 files)"
 
 # Security
 curl -fsSL "$REPO_URL/.claude/commands/security.md" -o "$PROJECT_DIR/.claude/commands/security.md"
@@ -98,12 +101,13 @@ fi
 # Summary
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "Installation complete! (31 commands)"
+echo "Installation complete! (34 commands)"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 echo "Commands installed:"
 echo "  Planning:  /feature, /extract, /execute, /build, /build:fast"
 echo "  Testing:   /test, /test:unit, /test:widget, /test:integration, /test:coverage"
+echo "             /test:write, /test:write:unit, /test:write:widget"
 echo "  Security:  /security, /security:deps, /security:secrets, /security:sast, /security:report"
 echo "  Git:       /branch:feature, /branch:fix, /branch:hotfix, /commit, /pr, /pr:staging, /pr:prod, /changelog, /version"
 echo "  Deploy:    /deploy:dev, /deploy:staging, /deploy:prod, /rollback"
