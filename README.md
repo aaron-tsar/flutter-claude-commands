@@ -96,9 +96,7 @@ main (production) ←── staging ←── develop ←── feature/*
 /branch:feature user-auth     → Create branch from develop
 /feature create auth          → Plan the feature
 /extract                      → Save to plan.md
-/execute @plan.md             → Implement code
-/test:write                   → Generate unit + widget tests
-/build @plan.md               → Run Test + Security + Review
+/build @plan.md               → Execute + Write Tests + Test + Security + Review
 /commit "feat(auth): login"   → Commit
 /pr                           → PR to develop
 ```
@@ -109,10 +107,16 @@ main (production) ←── staging ←── develop ←── feature/*
 /branch:feature user-auth     → Create branch
 /feature create auth          → Plan
 /extract                      → Save plan
-/execute @plan.md             → Implement code
-/test:write                   → Generate tests
-/build:fast @plan.md          → Test + Security + Review + Commit
+/build:fast @plan.md          → Execute + Write Tests + Test + Security + Review + Commit
 /pr                           → PR to develop
+```
+
+### Manual Control (Optional)
+
+```
+/execute @plan.md             → Implement code only (no tests)
+/test:write                   → Generate tests separately
+/test:unit                    → Run unit tests
 ```
 
 ### Release Flow

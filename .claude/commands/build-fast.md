@@ -14,7 +14,7 @@ Follow all Flutter & Dart rules in `CLAUDE.md`.
 
 ## Protocol
 
-This is EXECUTE + TEST + SECURITY + LINT + REVIEW + **COMMIT** (full auto).
+This is EXECUTE + WRITE TESTS + RUN TESTS + SECURITY + LINT + REVIEW + **COMMIT** (full auto).
 
 ### Step 1: Execute
 
@@ -24,7 +24,20 @@ For each phase:
 1. **Implement** — Follow rules, use MCP tools
 2. **Validate** — `analyze_files` → `dart_fix` → `dart_format`
 
-### Step 2: Test (≥80% coverage required)
+### Step 2: Write Tests (MANDATORY)
+
+Generate tests for all new/modified code:
+
+**Unit Tests** (`test/unit/`):
+- Test all public classes and methods
+- Cover happy path, edge cases, error handling
+- Use `package:checks` for assertions
+
+**Widget Tests** (`test/widget/`):
+- Test all new widgets/screens
+- Cover rendering, interactions, states
+
+### Step 3: Run Tests (≥80% coverage required)
 
 ```bash
 flutter test --coverage
@@ -32,7 +45,7 @@ flutter test --coverage
 
 If tests fail or coverage < 80%: STOP immediately, do NOT proceed.
 
-### Step 3: Security Scan
+### Step 4: Security Scan
 
 Run all security checks:
 - **Dependencies**: Check for vulnerabilities
@@ -41,7 +54,7 @@ Run all security checks:
 
 If critical issues found: STOP immediately, do NOT proceed.
 
-### Step 4: Lint & Format
+### Step 5: Lint & Format
 
 ```
 analyze_files → dart_fix → dart_format
@@ -49,17 +62,18 @@ analyze_files → dart_fix → dart_format
 
 Ensure zero errors, zero warnings.
 
-### Step 5: Review
+### Step 6: Review
 
 Perform AI code review:
 - Code quality check
 - Flutter best practices
 - Security review
 - Performance review
+- Test quality review
 
 If critical issues found: STOP, request user confirmation to proceed.
 
-### Step 6: Auto Commit
+### Step 7: Auto Commit
 
 Generate commit message based on changes:
 
@@ -80,8 +94,9 @@ BUILD FAST COMPLETE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Feature: <name>
 Files: X created, Y modified
+Tests: Z test files generated
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Tests:     ✅ XX% coverage
+Coverage:  ✅ XX% (≥80%)
 Security:  ✅ No issues
 Lint:      ✅ Clean
 Review:    ✅ Approved

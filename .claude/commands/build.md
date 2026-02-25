@@ -14,7 +14,7 @@ Follow all Flutter & Dart rules in `CLAUDE.md`.
 
 ## Protocol
 
-This is EXECUTE + TEST + SECURITY + LINT + REVIEW (stops before commit).
+This is EXECUTE + WRITE TESTS + RUN TESTS + SECURITY + LINT + REVIEW (stops before commit).
 
 ### Step 1: Execute
 
@@ -24,7 +24,34 @@ For each phase:
 1. **Implement** — Follow rules, use MCP tools
 2. **Validate** — `analyze_files` → `dart_fix` → `dart_format`
 
-### Step 2: Test (≥80% coverage required)
+### Step 2: Write Tests (MANDATORY)
+
+Generate tests for all new/modified code:
+
+**Unit Tests** (`test/unit/`):
+- Test all public classes and methods
+- Cover happy path, edge cases, error handling
+- Use `package:checks` for assertions
+
+**Widget Tests** (`test/widget/`):
+- Test all new widgets/screens
+- Cover rendering, interactions, states
+
+Test structure:
+```dart
+import 'package:test/test.dart';
+import 'package:checks/checks.dart';
+
+void main() {
+  group('ClassName', () {
+    test('should do X when Y', () {
+      // Arrange → Act → Assert
+    });
+  });
+}
+```
+
+### Step 3: Run Tests (≥80% coverage required)
 
 ```bash
 flutter test --coverage
@@ -35,9 +62,9 @@ Check coverage:
 lcov --summary coverage/lcov.info
 ```
 
-If coverage < 80%: List files needing tests and suggest test cases.
+If coverage < 80%: STOP, generate more tests until coverage met.
 
-### Step 3: Security Scan
+### Step 4: Security Scan
 
 Run all security checks:
 - **Dependencies**: Check for vulnerabilities
@@ -46,7 +73,7 @@ Run all security checks:
 
 Report any issues found.
 
-### Step 4: Lint & Format
+### Step 5: Lint & Format
 
 ```
 analyze_files → dart_fix → dart_format
@@ -54,13 +81,14 @@ analyze_files → dart_fix → dart_format
 
 Ensure zero errors, zero warnings.
 
-### Step 5: Review
+### Step 6: Review
 
 Perform AI code review:
 - Code quality check
 - Flutter best practices
 - Security review
 - Performance review
+- Test quality review
 
 ### Final Report
 
@@ -70,8 +98,9 @@ BUILD COMPLETE (Ready to commit)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Feature: <name>
 Files: X created, Y modified
+Tests: Z test files generated
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Tests:     ✅ XX% coverage
+Coverage:  ✅ XX% (≥80%)
 Security:  ✅ No issues
 Lint:      ✅ Clean
 Review:    ✅ Approved

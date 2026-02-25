@@ -82,14 +82,12 @@ main (production) ←── staging ←── develop ←── feature/*
 
 ### Standard Flow (Feature Development)
 ```
-1. /branch:feature user-auth     → Create feature/user-auth from develop
+1. /branch:feature user-auth     → Create branch from develop
 2. /feature create auth          → Plan the feature
 3. /extract                      → Save to plan.md
-4. /execute @plan.md             → Implement code
-5. /test:write                   → Generate unit + widget tests
-6. /build @plan.md               → Run Test + Security + Lint + Review
-7. /commit "feat(auth): add login"  → Commit
-8. /pr                           → PR to develop
+4. /build @plan.md               → Execute + Write Tests + Run Tests + Security + Review
+5. /commit "feat(auth): add login"  → Commit
+6. /pr                           → PR to develop
 ```
 
 **Or use Fast Flow:**
@@ -97,10 +95,15 @@ main (production) ←── staging ←── develop ←── feature/*
 1. /branch:feature user-auth     → Create branch
 2. /feature create auth          → Plan
 3. /extract                      → Save plan
-4. /execute @plan.md             → Implement code
-5. /test:write                   → Generate tests
-6. /build:fast @plan.md          → Test + Security + Review + Commit (auto)
-7. /pr                           → PR to develop
+4. /build:fast @plan.md          → Execute + Write Tests + Test + Security + Review + Commit
+5. /pr                           → PR to develop
+```
+
+**Manual control (optional):**
+```
+/execute @plan.md             → Implement code only (no tests)
+/test:write                   → Generate tests separately
+/test:unit                    → Run unit tests
 ```
 
 ### Release Flow
