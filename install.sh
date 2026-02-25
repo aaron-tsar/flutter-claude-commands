@@ -20,29 +20,58 @@ echo "[OK] Created .claude/commands/"
 echo ""
 echo "Downloading files..."
 
+# CLAUDE.md (Flutter rules + workflow)
 curl -fsSL "$REPO_URL/CLAUDE.md" -o "$PROJECT_DIR/CLAUDE.md"
 echo "[OK] CLAUDE.md"
 
+# Planning & Building
 curl -fsSL "$REPO_URL/.claude/commands/feature.md" -o "$PROJECT_DIR/.claude/commands/feature.md"
-echo "[OK] .claude/commands/feature.md"
-
 curl -fsSL "$REPO_URL/.claude/commands/extract.md" -o "$PROJECT_DIR/.claude/commands/extract.md"
-echo "[OK] .claude/commands/extract.md"
-
+curl -fsSL "$REPO_URL/.claude/commands/execute.md" -o "$PROJECT_DIR/.claude/commands/execute.md"
 curl -fsSL "$REPO_URL/.claude/commands/build.md" -o "$PROJECT_DIR/.claude/commands/build.md"
-echo "[OK] .claude/commands/build.md"
-
 curl -fsSL "$REPO_URL/.claude/commands/build-fast.md" -o "$PROJECT_DIR/.claude/commands/build-fast.md"
-echo "[OK] .claude/commands/build-fast.md"
+echo "[OK] Planning & Building (5 files)"
 
+# Testing
 curl -fsSL "$REPO_URL/.claude/commands/test.md" -o "$PROJECT_DIR/.claude/commands/test.md"
-echo "[OK] .claude/commands/test.md"
+curl -fsSL "$REPO_URL/.claude/commands/test-unit.md" -o "$PROJECT_DIR/.claude/commands/test-unit.md"
+curl -fsSL "$REPO_URL/.claude/commands/test-widget.md" -o "$PROJECT_DIR/.claude/commands/test-widget.md"
+curl -fsSL "$REPO_URL/.claude/commands/test-integration.md" -o "$PROJECT_DIR/.claude/commands/test-integration.md"
+curl -fsSL "$REPO_URL/.claude/commands/test-coverage.md" -o "$PROJECT_DIR/.claude/commands/test-coverage.md"
+echo "[OK] Testing (5 files)"
 
+# Security
+curl -fsSL "$REPO_URL/.claude/commands/security.md" -o "$PROJECT_DIR/.claude/commands/security.md"
+curl -fsSL "$REPO_URL/.claude/commands/security-deps.md" -o "$PROJECT_DIR/.claude/commands/security-deps.md"
+curl -fsSL "$REPO_URL/.claude/commands/security-secrets.md" -o "$PROJECT_DIR/.claude/commands/security-secrets.md"
+curl -fsSL "$REPO_URL/.claude/commands/security-sast.md" -o "$PROJECT_DIR/.claude/commands/security-sast.md"
+curl -fsSL "$REPO_URL/.claude/commands/security-report.md" -o "$PROJECT_DIR/.claude/commands/security-report.md"
+echo "[OK] Security (5 files)"
+
+# Git Flow
+curl -fsSL "$REPO_URL/.claude/commands/branch-feature.md" -o "$PROJECT_DIR/.claude/commands/branch-feature.md"
+curl -fsSL "$REPO_URL/.claude/commands/branch-fix.md" -o "$PROJECT_DIR/.claude/commands/branch-fix.md"
+curl -fsSL "$REPO_URL/.claude/commands/branch-hotfix.md" -o "$PROJECT_DIR/.claude/commands/branch-hotfix.md"
 curl -fsSL "$REPO_URL/.claude/commands/commit.md" -o "$PROJECT_DIR/.claude/commands/commit.md"
-echo "[OK] .claude/commands/commit.md"
+curl -fsSL "$REPO_URL/.claude/commands/pr.md" -o "$PROJECT_DIR/.claude/commands/pr.md"
+curl -fsSL "$REPO_URL/.claude/commands/pr-staging.md" -o "$PROJECT_DIR/.claude/commands/pr-staging.md"
+curl -fsSL "$REPO_URL/.claude/commands/pr-prod.md" -o "$PROJECT_DIR/.claude/commands/pr-prod.md"
+curl -fsSL "$REPO_URL/.claude/commands/changelog.md" -o "$PROJECT_DIR/.claude/commands/changelog.md"
+curl -fsSL "$REPO_URL/.claude/commands/version.md" -o "$PROJECT_DIR/.claude/commands/version.md"
+echo "[OK] Git Flow (9 files)"
 
-curl -fsSL "$REPO_URL/.claude/commands/fast.md" -o "$PROJECT_DIR/.claude/commands/fast.md"
-echo "[OK] .claude/commands/fast.md"
+# Deploy
+curl -fsSL "$REPO_URL/.claude/commands/deploy-dev.md" -o "$PROJECT_DIR/.claude/commands/deploy-dev.md"
+curl -fsSL "$REPO_URL/.claude/commands/deploy-staging.md" -o "$PROJECT_DIR/.claude/commands/deploy-staging.md"
+curl -fsSL "$REPO_URL/.claude/commands/deploy-prod.md" -o "$PROJECT_DIR/.claude/commands/deploy-prod.md"
+curl -fsSL "$REPO_URL/.claude/commands/rollback.md" -o "$PROJECT_DIR/.claude/commands/rollback.md"
+echo "[OK] Deploy (4 files)"
+
+# Quality
+curl -fsSL "$REPO_URL/.claude/commands/lint.md" -o "$PROJECT_DIR/.claude/commands/lint.md"
+curl -fsSL "$REPO_URL/.claude/commands/review.md" -o "$PROJECT_DIR/.claude/commands/review.md"
+curl -fsSL "$REPO_URL/.claude/commands/health.md" -o "$PROJECT_DIR/.claude/commands/health.md"
+echo "[OK] Quality (3 files)"
 
 # Configure Dart MCP (optional)
 echo ""
@@ -69,20 +98,19 @@ fi
 # Summary
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "Installation complete!"
+echo "Installation complete! (31 commands)"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
-echo "Files installed:"
-echo "  CLAUDE.md                (Flutter rules)"
-echo "  .claude/commands/"
-echo "    feature.md             /feature <prompt>"
-echo "    extract.md             /extract"
-echo "    build.md               /build @plan.md"
-echo "    build-fast.md          /build:fast @plan.md"
-echo "    test.md                /test [path]"
-echo "    commit.md              /commit [message]"
-echo "    fast.md                /fast <issue>"
+echo "Commands installed:"
+echo "  Planning:  /feature, /extract, /execute, /build, /build:fast"
+echo "  Testing:   /test, /test:unit, /test:widget, /test:integration, /test:coverage"
+echo "  Security:  /security, /security:deps, /security:secrets, /security:sast, /security:report"
+echo "  Git:       /branch:feature, /branch:fix, /branch:hotfix, /commit, /pr, /pr:staging, /pr:prod, /changelog, /version"
+echo "  Deploy:    /deploy:dev, /deploy:staging, /deploy:prod, /rollback"
+echo "  Quality:   /lint, /review, /health"
 echo ""
-echo "Standard: /feature → /extract → /clear → /build → /test → /commit"
-echo "Fast:     /build:fast (auto test+commit) or /fast (quick fix)"
+echo "Workflow:"
+echo "  Standard: /branch:feature → /feature → /extract → /build → /commit → /pr"
+echo "  Fast:     /branch:feature → /feature → /extract → /build:fast → /pr"
+echo "  Hotfix:   /branch:hotfix → /build:fast → /pr:prod → /deploy:prod"
 echo ""
