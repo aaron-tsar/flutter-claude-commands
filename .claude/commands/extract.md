@@ -71,11 +71,17 @@ Create `plan.md` with this structure:
 
 ## After Extraction
 
-Tell the user:
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PLAN EXTRACTED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+File: plan.md
+Feature: <name>
+Phases: N
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
-> **Plan saved to `plan.md`**
->
-> Next steps:
-> 1. Review and edit `plan.md` if needed
-> 2. Run `/clear` to release this session
-> 3. Run `/build @plan.md` to implement
+> Next step: Choose one:
+> - `/clear` → Release session, then `/build @plan.md` to implement
+> - `/build @plan.md` → Execute + Test + Security + Review (no commit)
+> - `/build:fast @plan.md` → Full auto with commit

@@ -53,6 +53,10 @@ Files: X changed
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-### 7. Ask About Push
+### 7. Next Step
 
-> Commit done. Push to remote? (y/n)
+> Commit complete. Choose next action:
+> - `git push` → Push to remote
+> - `/pr` → Create pull request to develop
+> - `/pr:staging` → Create PR to staging (if on develop)
+> - `/deploy:dev` → Deploy to development

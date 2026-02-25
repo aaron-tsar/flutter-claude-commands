@@ -91,6 +91,16 @@ Refine the plan based on user feedback until approved.
 
 When the plan is finalized, tell the user:
 
-> **Plan ready!** Run `/extract` to save it to `plan.md`, then `/clear` to start fresh, then `/build @plan.md` to implement.
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PLAN READY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Feature: <name>
+Phases: N
+Tasks: X total
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+> Next step: `/extract` → Save plan to `plan.md`
 
 **Important**: Do NOT create any files during planning. The plan exists only in this conversation until `/extract`.

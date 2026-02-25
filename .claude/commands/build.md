@@ -1,94 +1,101 @@
-You are implementing a Flutter feature from a plan file.
+You are building a Flutter feature with full validation (no commit).
 
-## Plan File
+## Plan File or Issue
 
-Read: $ARGUMENTS
+$ARGUMENTS
 
-If not provided or not found, look for `plan.md` in project root. If missing:
-> No plan found. Run `/feature <description>` then `/extract` first.
+If plan file provided: implement from plan.
+If issue description: quick fix mode.
+If not provided: look for `plan.md`.
 
 ## Rules Reference
 
-Follow all Flutter & Dart rules defined in `CLAUDE.md` at project root.
+Follow all Flutter & Dart rules in `CLAUDE.md`.
 
-## MCP Tools
+## Protocol
 
-Use Dart MCP tools when available:
+This is EXECUTE + TEST + SECURITY + LINT + REVIEW (stops before commit).
 
-| Tool | When |
-|------|------|
-| `analyze_files` | After changes |
-| `dart_fix` | Auto-fix issues |
-| `dart_format` | Before completing |
-| `pub` | Add dependencies |
-| `pub_dev_search` | Find packages |
-| `run_tests` | Verify correctness |
+### Step 1: Execute
 
-Fallback: `dart analyze`, `dart fix --apply`, `dart format .`, `flutter pub add`, `flutter test`
+Implement the feature/fix following the plan or issue description.
 
-## Implementation Protocol
+For each phase:
+1. **Implement** — Follow rules, use MCP tools
+2. **Validate** — `analyze_files` → `dart_fix` → `dart_format`
 
-For **each phase** in the plan:
-
-### 1. Announce
-
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Phase N: <name>
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
-
-### 2. Add Dependencies
-
-Use `pub` MCP tool or `flutter pub add <package>`
-
-### 3. Implement Tasks
-
-Follow the plan. Apply rules from `CLAUDE.md`.
-
-### 4. Code Generation (if needed)
+### Step 2: Test (≥80% coverage required)
 
 ```bash
-dart run build_runner build --delete-conflicting-outputs
+flutter test --coverage
 ```
 
-### 5. Validate
-
-1. `analyze_files` → fix ALL issues
-2. `dart_fix` → apply auto-fixes  
-3. `dart_format` → format code
-4. `run_tests` → if applicable
-
-### 6. Report
-
-```
-Phase N: <name> — COMPLETE
-Files: created X, modified Y
+Check coverage:
+```bash
+lcov --summary coverage/lcov.info
 ```
 
-## After All Phases
+If coverage < 80%: List files needing tests and suggest test cases.
 
-### Final Validation
+### Step 3: Security Scan
 
-1. Full `analyze_files`
-2. Full `run_tests`
-3. `dart_format .`
+Run all security checks:
+- **Dependencies**: Check for vulnerabilities
+- **Secrets**: Scan for hardcoded keys/tokens
+- **SAST**: Static security analysis
 
-### Update plan.md
+Report any issues found.
 
-Mark completed tasks: `- [ ]` → `- [x]`
+### Step 4: Lint & Format
+
+```
+analyze_files → dart_fix → dart_format
+```
+
+Ensure zero errors, zero warnings.
+
+### Step 5: Review
+
+Perform AI code review:
+- Code quality check
+- Flutter best practices
+- Security review
+- Performance review
 
 ### Final Report
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-BUILD COMPLETE
+BUILD COMPLETE (Ready to commit)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Feature: <name>
-Phases: N/N
-Files created: X
-Files modified: Y
-Tests: passing
-Analysis: clean
+Files: X created, Y modified
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Tests:     ✅ XX% coverage
+Security:  ✅ No issues
+Lint:      ✅ Clean
+Review:    ✅ Approved
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+### Next Step
+
+> Build complete. Choose next action:
+> - `/commit "feat(scope): message"` → Commit changes
+> - `/build:fast @plan.md` → Re-run with auto-commit
+> - `/pr` → Create pull request (if already committed)
+
+## If Any Step Fails
+
+Stop and report which step failed with details.
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BUILD STOPPED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Failed at: <step name>
+Reason: <details>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Fix the issue and run `/build @plan.md` again.
 ```

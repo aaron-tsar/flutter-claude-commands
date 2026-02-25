@@ -2,29 +2,179 @@
 
 ## Commands
 
+### Planning & Building
 | Command | Description |
 |---------|-------------|
 | `/feature <prompt>` | Plan a feature interactively |
 | `/extract` | Save plan to `plan.md` |
-| `/build @plan.md` | Implement from plan |
-| `/test [path]` | Run tests |
-| `/commit [message]` | Commit changes |
-| `/fast <issue>` | Quick fix for any issue |
-| `/build:fast @plan.md` | Build → Test → Commit (auto) |
+| `/clear` | Release session memory |
+| `/execute @plan.md` | Implement from plan (code only) |
+| `/build @plan.md` | Execute → Test → Security → Lint → Review |
+| `/build:fast @plan.md` | Build + Commit (full auto) |
+
+### Testing (Required: 80% coverage)
+| Command | Description |
+|---------|-------------|
+| `/test` | Run all tests |
+| `/test:unit [path]` | Run unit tests only |
+| `/test:widget [path]` | Run widget tests only |
+| `/test:integration` | Run integration tests |
+| `/test:coverage` | Run tests with coverage report |
+
+### Security (Advanced)
+| Command | Description |
+|---------|-------------|
+| `/security` | Run all security checks |
+| `/security:deps` | Scan dependencies for vulnerabilities |
+| `/security:secrets` | Detect hardcoded secrets/keys |
+| `/security:sast` | Static Application Security Testing |
+| `/security:report` | Generate security audit report |
+
+### Git (Git Flow)
+| Command | Description |
+|---------|-------------|
+| `/branch:feature <name>` | Create feature branch from develop |
+| `/branch:fix <name>` | Create fix branch from develop |
+| `/branch:hotfix <name>` | Create hotfix branch from main |
+| `/commit [message]` | Commit with conventional format |
+| `/pr` | Create pull request to develop |
+| `/pr:staging` | Create PR: develop → staging |
+| `/pr:prod` | Create PR: staging → main |
+| `/changelog` | Generate changelog from commits |
+| `/version <major/minor/patch>` | Bump version (semantic) |
+
+### Deploy
+| Command | Description |
+|---------|-------------|
+| `/deploy:dev` | Deploy to Firebase App Distribution (dev) |
+| `/deploy:staging` | Deploy to Firebase/TestFlight (staging) |
+| `/deploy:prod` | Deploy to stores (production) |
+| `/rollback` | Rollback to previous version |
+
+### Quality
+| Command | Description |
+|---------|-------------|
+| `/lint` | Run linter + formatter |
+| `/review` | AI code review before commit |
+| `/health` | Check app health post-deploy |
+
+## Git Flow Branching
+
+```
+main (production) ←── staging ←── develop ←── feature/*
+     ↑                                    ←── fix/*
+     └──────────────────────────────────────── hotfix/*
+```
+
+| Branch | Purpose | Merge To |
+|--------|---------|----------|
+| `main` | Production releases | - |
+| `staging` | Pre-production testing | main |
+| `develop` | Integration branch | staging |
+| `feature/*` | New features | develop |
+| `fix/*` | Bug fixes | develop |
+| `hotfix/*` | Critical production fixes | main + develop |
 
 ## Workflow
 
-### Standard Flow
-1. `/feature create auth` → Plan
-2. `/extract` → Save to `plan.md`
-3. `/clear` → Release session
-4. `/build @plan.md` → Implement
-5. `/test` → Run tests
-6. `/commit` → Commit changes
+### Standard Flow (Feature Development)
+```
+1. /branch:feature user-auth     → Create feature/user-auth from develop
+2. /feature create auth          → Plan the feature
+3. /extract                      → Save to plan.md
+4. /build @plan.md               → Execute + Test + Security + Lint + Review
+5. /commit "feat(auth): add login"  → Commit
+6. /pr                           → PR to develop
+```
 
-### Fast Flow
-- `/build:fast @plan.md` → Build + Test + Commit (all-in-one)
-- `/fast fix login button not working` → Quick fix + validate
+**Or use Fast Flow:**
+```
+1. /branch:feature user-auth     → Create branch
+2. /feature create auth          → Plan
+3. /extract                      → Save plan
+4. /build:fast @plan.md          → Execute + Test + Security + Review + Commit (auto)
+5. /pr                           → PR to develop
+```
+
+### Release Flow
+```
+1. /pr:staging                   → PR develop → staging
+2. /deploy:staging               → Deploy to staging env
+3. /test:integration             → E2E tests on staging
+4. /health                       → Health check
+5. /pr:prod                      → PR staging → main
+6. /version minor                → Bump version
+7. /changelog                    → Generate changelog
+8. /deploy:prod                  → Deploy to stores
+```
+
+### Hotfix Flow
+```
+1. /branch:hotfix critical-bug   → Create from main
+2. /build:fast fix the bug       → Fix + Test + Security + Review + Commit (auto)
+3. /pr:prod                      → PR to main (merge)
+4. /version patch                → Bump patch version
+5. /deploy:prod                  → Deploy immediately
+6. git merge main → develop      → Sync hotfix back to develop
+```
+
+### Quick Fix Flow
+```
+/build:fast fix login button → Fix + Test + Security + Review + Commit (auto)
+```
+
+## Security Checklist
+
+### `/security:deps` - Dependency Scan
+- [ ] Check `pubspec.lock` for known vulnerabilities
+- [ ] Verify package sources (pub.dev only)
+- [ ] Check for outdated packages with security patches
+
+### `/security:secrets` - Secrets Detection
+- [ ] API keys, tokens, passwords in code
+- [ ] Firebase/Google service files exposed
+- [ ] Environment variables hardcoded
+- [ ] Private keys in repository
+
+### `/security:sast` - Static Analysis
+- [ ] SQL injection patterns
+- [ ] Insecure data storage
+- [ ] Weak cryptography usage
+- [ ] Insecure network requests (HTTP vs HTTPS)
+- [ ] Debug code in production
+- [ ] Sensitive data logging
+
+## Test Requirements
+
+| Type | Coverage | Location |
+|------|----------|----------|
+| Unit | ≥80% | `test/unit/` |
+| Widget | ≥80% | `test/widget/` |
+| Integration | Critical paths | `test/integration/` |
+
+### Mandatory Test Cases per Feature
+- [ ] Happy path scenarios
+- [ ] Error handling / edge cases
+- [ ] Null safety boundaries
+- [ ] State transitions
+- [ ] API response variations (success, error, timeout)
+
+## Deploy Targets
+
+| Environment | Target | Trigger |
+|-------------|--------|---------|
+| Development | Firebase App Distribution | `/deploy:dev` |
+| Staging | Firebase + TestFlight | `/deploy:staging` |
+| Production | Play Store + App Store | `/deploy:prod` |
+
+### Version Naming
+```
+1.2.3+45
+│ │ │ └── Build number (auto-increment)
+│ │ └──── Patch (bug fixes)
+│ └────── Minor (new features)
+└──────── Major (breaking changes)
+```
 
 ## Dart MCP Server
 

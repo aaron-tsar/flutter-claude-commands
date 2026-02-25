@@ -1,11 +1,12 @@
-You are implementing a feature with auto-test and auto-commit.
+You are building a Flutter feature with full validation AND auto-commit.
 
-## Plan File
+## Plan File or Issue
 
-Read: $ARGUMENTS
+$ARGUMENTS
 
-If not provided, look for `plan.md`. If missing:
-> No plan found. Run `/feature <description>` then `/extract` first.
+If plan file provided: implement from plan.
+If issue description: quick fix mode.
+If not provided: look for `plan.md`.
 
 ## Rules Reference
 
@@ -13,72 +14,99 @@ Follow all Flutter & Dart rules in `CLAUDE.md`.
 
 ## Protocol
 
-This is BUILD + TEST + COMMIT in one flow.
+This is EXECUTE + TEST + SECURITY + LINT + REVIEW + **COMMIT** (full auto).
 
-### Phase Loop
+### Step 1: Execute
 
-For each phase in the plan:
+Implement the feature/fix following the plan or issue description.
 
+For each phase:
 1. **Implement** — Follow rules, use MCP tools
 2. **Validate** — `analyze_files` → `dart_fix` → `dart_format`
-3. **Test** — `run_tests` or `flutter test`
-4. **Continue** — Only proceed if tests pass
 
-### After All Phases
+### Step 2: Test (≥80% coverage required)
 
-#### 1. Final Validation
-
-```
-analyze_files → dart_format → run_tests (full)
+```bash
+flutter test --coverage
 ```
 
-#### 2. Update plan.md
+If tests fail or coverage < 80%: STOP immediately, do NOT proceed.
 
-Mark all tasks: `- [ ]` → `- [x]`
+### Step 3: Security Scan
 
-#### 3. Auto Commit
+Run all security checks:
+- **Dependencies**: Check for vulnerabilities
+- **Secrets**: Scan for hardcoded keys/tokens
+- **SAST**: Static security analysis
 
-Generate commit message from plan:
+If critical issues found: STOP immediately, do NOT proceed.
+
+### Step 4: Lint & Format
+
+```
+analyze_files → dart_fix → dart_format
+```
+
+Ensure zero errors, zero warnings.
+
+### Step 5: Review
+
+Perform AI code review:
+- Code quality check
+- Flutter best practices
+- Security review
+- Performance review
+
+If critical issues found: STOP, request user confirmation to proceed.
+
+### Step 6: Auto Commit
+
+Generate commit message based on changes:
 
 ```bash
 git add -A
-git commit -m "feat(<feature>): implement <feature name>
+git commit -m "<type>(<scope>): <description>
 
-- Phase 1: <summary>
-- Phase 2: <summary>
+- <change 1>
+- <change 2>
 ..."
 ```
 
-#### 4. Final Report
+### Final Report
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 BUILD FAST COMPLETE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Feature: <name>
-Phases: N/N
 Files: X created, Y modified
-Tests: all passed
-Commit: <hash> <message>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Push to remote? (y/n)
+Tests:     ✅ XX% coverage
+Security:  ✅ No issues
+Lint:      ✅ Clean
+Review:    ✅ Approved
+Commit:    ✅ <hash> <message>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-## If Tests Fail
+### Next Step
 
-Stop immediately. Report:
+> Build & commit complete. Choose next action:
+> - `/pr` → Create pull request to develop
+> - `git push` → Push to remote
+> - `/deploy:dev` → Deploy to development
+
+## If Any Step Fails
+
+Stop immediately and report. Do NOT commit.
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-BUILD STOPPED — TESTS FAILED
+BUILD FAST STOPPED
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Phase: N
-Failed tests: <list>
-Error: <message>
+Failed at: <step name>
+Reason: <details>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Fix and retry with `/build:fast @plan.md`
+Fix the issue and run `/build:fast @plan.md` again.
 ```
-
-Do NOT commit if tests fail.
