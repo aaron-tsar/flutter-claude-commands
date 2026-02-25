@@ -4,7 +4,7 @@ set -euo pipefail
 # Flutter Commands Installer for Claude Code
 # Downloads files from GitHub repo
 
-REPO_URL="https://raw.githubusercontent.com/aaron-tsar/flutter-claude-commands/main"
+REPO_URL="https://raw.githubusercontent.com/aaron-tsar/flutter-claude-commands/master"
 PROJECT_DIR="${1:-.}"
 
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

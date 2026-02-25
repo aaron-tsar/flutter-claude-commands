@@ -5,13 +5,13 @@ Custom slash commands for Flutter development workflow in Claude Code.
 ## Quick Install
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/aaron-tsar/flutter-claude-commands/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/aaron-tsar/flutter-claude-commands/master/install.sh | bash
 ```
 
 Or install to a specific project:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/aaron-tsar/flutter-claude-commands/main/install.sh | bash -s /path/to/project
+curl -fsSL https://raw.githubusercontent.com/aaron-tsar/flutter-claude-commands/master/install.sh | bash -s /path/to/project
 ```
 
 ## Commands
