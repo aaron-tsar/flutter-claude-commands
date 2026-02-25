@@ -7,13 +7,24 @@
 | `/feature <prompt>` | Plan a feature interactively |
 | `/extract` | Save plan to `plan.md` |
 | `/build @plan.md` | Implement from plan |
+| `/test [path]` | Run tests |
+| `/commit [message]` | Commit changes |
+| `/fast <issue>` | Quick fix for any issue |
+| `/build:fast @plan.md` | Build → Test → Commit (auto) |
 
 ## Workflow
 
-1. `/feature create auth with email/password` → Plan
+### Standard Flow
+1. `/feature create auth` → Plan
 2. `/extract` → Save to `plan.md`
 3. `/clear` → Release session
 4. `/build @plan.md` → Implement
+5. `/test` → Run tests
+6. `/commit` → Commit changes
+
+### Fast Flow
+- `/build:fast @plan.md` → Build + Test + Commit (all-in-one)
+- `/fast fix login button not working` → Quick fix + validate
 
 ## Dart MCP Server
 

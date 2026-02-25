@@ -21,13 +21,30 @@ curl -fsSL https://raw.githubusercontent.com/aaron-tsar/flutter-claude-commands/
 | `/feature <prompt>` | Plan a feature interactively |
 | `/extract` | Save plan to `plan.md` |
 | `/build @plan.md` | Implement from plan |
+| `/test [path]` | Run tests |
+| `/commit [message]` | Commit changes |
+| `/fast <issue>` | Quick fix for any issue |
+| `/build:fast @plan.md` | Build → Test → Commit (auto) |
 
 ## Workflow
 
-1. **Plan**: `/feature create user authentication with email/password`
-2. **Extract**: `/extract` — saves to `plan.md`
-3. **Clear**: `/clear` — release session
-4. **Build**: `/build @plan.md` — implement the feature
+### Standard Flow
+
+```
+/feature create auth     →  Plan interactively
+/extract                 →  Save to plan.md
+/clear                   →  Release session
+/build @plan.md          →  Implement phases
+/test                    →  Run tests
+/commit                  →  Commit changes
+```
+
+### Fast Flow
+
+```
+/build:fast @plan.md     →  Build + Test + Commit (all-in-one)
+/fast fix login button   →  Quick fix + validate
+```
 
 ## Files Installed
 
@@ -36,16 +53,19 @@ project/
 ├── CLAUDE.md                    # Flutter rules + entry point
 └── .claude/
     └── commands/
-        ├── feature.md           # /feature command
-        ├── extract.md           # /extract command
-        └── build.md             # /build command
+        ├── feature.md           # /feature
+        ├── extract.md           # /extract
+        ├── build.md             # /build
+        ├── build-fast.md        # /build:fast
+        ├── test.md              # /test
+        ├── commit.md            # /commit
+        └── fast.md              # /fast
 ```
 
 ## Dart MCP Server
 
-The installer auto-configures Dart MCP if Dart 3.9+ and Claude CLI are available.
+Auto-configured if Dart 3.9+ and Claude CLI available.
 
-Manual setup:
 ```bash
 claude mcp add --transport stdio dart -- dart mcp-server
 ```
