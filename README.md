@@ -14,52 +14,167 @@ Or install to a specific project:
 curl -fsSL https://raw.githubusercontent.com/aaron-tsar/flutter-claude-commands/master/install.sh | bash -s /path/to/project
 ```
 
-## Commands
+## Commands (31 total)
+
+### Planning & Building
 
 | Command | Description |
 |---------|-------------|
 | `/feature <prompt>` | Plan a feature interactively |
 | `/extract` | Save plan to `plan.md` |
-| `/build @plan.md` | Implement from plan |
-| `/test [path]` | Run tests |
-| `/commit [message]` | Commit changes |
-| `/fast <issue>` | Quick fix for any issue |
-| `/build:fast @plan.md` | Build → Test → Commit (auto) |
+| `/execute @plan.md` | Implement from plan (code only) |
+| `/build @plan.md` | Execute → Test → Security → Lint → Review |
+| `/build:fast @plan.md` | Build + Commit (full auto) |
+
+### Testing (80% coverage required)
+
+| Command | Description |
+|---------|-------------|
+| `/test` | Run all tests |
+| `/test:unit [path]` | Run unit tests only |
+| `/test:widget [path]` | Run widget tests only |
+| `/test:integration` | Run integration tests |
+| `/test:coverage` | Run tests with coverage report |
+
+### Security (Advanced)
+
+| Command | Description |
+|---------|-------------|
+| `/security` | Run all security checks |
+| `/security:deps` | Scan dependencies for vulnerabilities |
+| `/security:secrets` | Detect hardcoded secrets/keys |
+| `/security:sast` | Static Application Security Testing |
+| `/security:report` | Generate security audit report |
+
+### Git (Git Flow)
+
+| Command | Description |
+|---------|-------------|
+| `/branch:feature <name>` | Create feature branch from develop |
+| `/branch:fix <name>` | Create fix branch from develop |
+| `/branch:hotfix <name>` | Create hotfix branch from main |
+| `/commit [message]` | Commit with conventional format |
+| `/pr` | Create pull request to develop |
+| `/pr:staging` | Create PR: develop → staging |
+| `/pr:prod` | Create PR: staging → main |
+| `/changelog` | Generate changelog from commits |
+| `/version <major/minor/patch>` | Bump version (semantic) |
+
+### Deploy
+
+| Command | Description |
+|---------|-------------|
+| `/deploy:dev` | Deploy to Firebase App Distribution |
+| `/deploy:staging` | Deploy to Firebase/TestFlight |
+| `/deploy:prod` | Deploy to Play Store/App Store |
+| `/rollback` | Rollback to previous version |
+
+### Quality
+
+| Command | Description |
+|---------|-------------|
+| `/lint` | Run linter + formatter |
+| `/review` | AI code review before commit |
+| `/health` | Check app health post-deploy |
+
+## Git Flow Branching
+
+```
+main (production) ←── staging ←── develop ←── feature/*
+     ↑                                    ←── fix/*
+     └──────────────────────────────────────── hotfix/*
+```
 
 ## Workflow
 
-### Standard Flow
+### Standard Flow (Feature Development)
 
 ```
-/feature create auth     →  Plan interactively
-/extract                 →  Save to plan.md
-/clear                   →  Release session
-/build @plan.md          →  Implement phases
-/test                    →  Run tests
-/commit                  →  Commit changes
+/branch:feature user-auth     → Create branch from develop
+/feature create auth          → Plan the feature
+/extract                      → Save to plan.md
+/build @plan.md               → Execute + Test + Security + Review
+/commit "feat(auth): login"   → Commit
+/pr                           → PR to develop
 ```
 
-### Fast Flow
+### Fast Flow (Auto Commit)
 
 ```
-/build:fast @plan.md     →  Build + Test + Commit (all-in-one)
-/fast fix login button   →  Quick fix + validate
+/branch:feature user-auth     → Create branch
+/feature create auth          → Plan
+/extract                      → Save plan
+/build:fast @plan.md          → Execute + Test + Security + Review + Commit
+/pr                           → PR to develop
+```
+
+### Release Flow
+
+```
+/pr:staging                   → PR develop → staging
+/deploy:staging               → Deploy to staging
+/test:integration             → E2E tests
+/health                       → Health check
+/pr:prod                      → PR staging → main
+/version minor                → Bump version
+/changelog                    → Generate changelog
+/deploy:prod                  → Deploy to stores
+```
+
+### Hotfix Flow
+
+```
+/branch:hotfix critical-bug   → Create from main
+/build:fast fix the bug       → Fix + Test + Security + Commit
+/pr:prod                      → PR to main
+/version patch                → Bump patch version
+/deploy:prod                  → Deploy immediately
+```
+
+### Quick Fix
+
+```
+/build:fast fix login button  → Fix + Test + Security + Review + Commit (auto)
 ```
 
 ## Files Installed
 
 ```
 project/
-├── CLAUDE.md                    # Flutter rules + entry point
+├── CLAUDE.md                        # Flutter rules + workflow
 └── .claude/
     └── commands/
-        ├── feature.md           # /feature
-        ├── extract.md           # /extract
-        ├── build.md             # /build
-        ├── build-fast.md        # /build:fast
-        ├── test.md              # /test
-        ├── commit.md            # /commit
-        └── fast.md              # /fast
+        ├── feature.md               # /feature
+        ├── extract.md               # /extract
+        ├── execute.md               # /execute
+        ├── build.md                 # /build
+        ├── build-fast.md            # /build:fast
+        ├── test.md                  # /test
+        ├── test-unit.md             # /test:unit
+        ├── test-widget.md           # /test:widget
+        ├── test-integration.md      # /test:integration
+        ├── test-coverage.md         # /test:coverage
+        ├── security.md              # /security
+        ├── security-deps.md         # /security:deps
+        ├── security-secrets.md      # /security:secrets
+        ├── security-sast.md         # /security:sast
+        ├── security-report.md       # /security:report
+        ├── branch-feature.md        # /branch:feature
+        ├── branch-fix.md            # /branch:fix
+        ├── branch-hotfix.md         # /branch:hotfix
+        ├── commit.md                # /commit
+        ├── pr.md                    # /pr
+        ├── pr-staging.md            # /pr:staging
+        ├── pr-prod.md               # /pr:prod
+        ├── changelog.md             # /changelog
+        ├── version.md               # /version
+        ├── deploy-dev.md            # /deploy:dev
+        ├── deploy-staging.md        # /deploy:staging
+        ├── deploy-prod.md           # /deploy:prod
+        ├── rollback.md              # /rollback
+        ├── lint.md                  # /lint
+        ├── review.md                # /review
+        └── health.md                # /health
 ```
 
 ## Dart MCP Server
